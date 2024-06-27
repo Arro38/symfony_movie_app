@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Director;
+use App\Entity\Movie;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -102,5 +103,13 @@ class DirectorController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], 400);
         }
+    }
+
+    #[Route('/{id}/movies', name: 'get_director_movies', methods: ['GET'])]
+    public function getDirectorMovies(Director $director, EntityManagerInterface $em, SerializerInterface $serializer): JsonResponse
+    {
+        $movies = $em->getRepository(Movie::class)->findByDirector($director);
+        $data = $serializer->serialize($movies, 'json');
+        return new JsonResponse($data, 200, [], true);
     }
 }
