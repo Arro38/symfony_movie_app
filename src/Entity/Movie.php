@@ -28,7 +28,7 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?director $director = null;
+    private ?Director $director = null;
 
     public function getId(): ?int
     {
@@ -83,12 +83,12 @@ class Movie
         return $this;
     }
 
-    public function getDirector(): ?director
+    public function getDirector(): ?Director
     {
         return $this->director;
     }
 
-    public function setDirector(?director $director): static
+    public function setDirector(?Director $director): static
     {
         $this->director = $director;
 

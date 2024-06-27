@@ -21,16 +21,6 @@ class Director
     #[ORM\Column(length: 30)]
     private ?string $nationality = null;
 
-    /**
-     * @var Collection<int, Movie>
-     */
-    #[ORM\OneToMany(targetEntity: Movie::class, mappedBy: 'director')]
-    private Collection $movies;
-
-    public function __construct()
-    {
-        $this->movies = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -57,36 +47,6 @@ class Director
     public function setNationality(string $nationality): static
     {
         $this->nationality = $nationality;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Movie>
-     */
-    public function getMovies(): Collection
-    {
-        return $this->movies;
-    }
-
-    public function addMovie(Movie $movie): static
-    {
-        if (!$this->movies->contains($movie)) {
-            $this->movies->add($movie);
-            $movie->setDirector($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMovie(Movie $movie): static
-    {
-        if ($this->movies->removeElement($movie)) {
-            // set the owning side to null (unless already changed)
-            if ($movie->getDirector() === $this) {
-                $movie->setDirector(null);
-            }
-        }
 
         return $this;
     }
